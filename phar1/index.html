@@ -1,0 +1,606 @@
+<HTML> 
+<HEAD> 
+<meta charset="utf-8" />
+<TITLE>Pentest</TITLE> 
+<BGSOUND balance=0 src="http://www.cnhonkerarmy.com/indeximages/chinahonker0.mid" volume=0 loop=20> 
+<STYLE type=text/css> 
+body{ 
+scrollbar-shadow-color:#FFFFFF; 
+scrollbar-highlight-color:#FFFFFF; 
+scrollbar-3dlight-color: #000000; 
+scrollbar-darkshadow-color:#000000; 
+scrollbar-arrow-color:#FFFFFF; 
+scrollbar-base-color: #000000; 
+scrollbar-track-color: #000000; 
+overflow-y:auto; } 
+<!-- 
+
+body{ 
+CURSOR: url('http://www.ay001.com/admin/2.cur'); 
+background-color: #000000; 
+}/*未选中前鼠标样式*/ 
+a:hover{CURSOR: url('http://www.ay001.com/admin/1.cur')}/*已选中后鼠标样式*/ 
+a:link { 
+color: #00FF00; 
+text-decoration: none; 
+} 
+a:visited { 
+text-decoration: none; 
+color: #00FF00;s 
+} 
+a:hover { 
+text-decoration: underline; 
+color: #FF0000; 
+} 
+a:active { 
+text-decoration: none; 
+color: #FF0000; 
+} 
+.STYLE1 {color: #00FF00} 
+--> 
+</STYLE> 
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"><BODY>
+<SCRIPT> 
+<!-- 
+var from = 1; 
+var to = 4; 
+var delay = 55; 
+var glowColor = "lime"; 
+var i = to; 
+var j = 0; 
+textPulseDown(); 
+var msg = "haha........................................ " ; 
+var interval=70 
+var spacelen=120; 
+var space10=" "; 
+var seq=0; 
+function Scroll() 
+{ 
+len = msg.length; 
+window.status = msg.substring(0, seq+1); 
+seq++; 
+if(seq>=len ){ 
+seq = 0; 
+window.status = ''; 
+window.setTimeout("Scroll();", interval ); 
+} 
+else 
+window.setTimeout("Scroll();", interval ); 
+} 
+Scroll(); 
+
+function trap_page_mouse_key_events () { 
+var browser = navigator.appName.substring ( 0, 9 ); 
+document.onmousedown = disable_right_click; 
+if ( browser == "Microsoft" ) 
+document.onkeydown = check_mousekey; 
+else 
+document.captureEvents( Event.MOUSEDOWN ); 
+} 
+window.onload=trap_page_mouse_key_events; 
+function textPulseUp() 
+{ 
+if (!document.all) 
+return 
+if (i < to) 
+{ 
+theText.style.filter = "Glow(Color=" + glowColor + ", Strength=" + i + ")"; 
+i++; 
+theTimeout = setTimeout('textPulseUp()',delay); 
+return 0; 
+} 
+if (i = to) 
+{ 
+theTimeout = setTimeout('textPulseDown()',delay); 
+return 0; 
+} 
+} 
+function textPulseDown() 
+{ 
+if (!document.all) 
+return 
+if (i > from) 
+{theText.style.filter = "Glow(Color=" + glowColor + ", Strength=" + i + ")"; 
+i--;theTimeout = setTimeout('textPulseDown()',delay);return 0;}if (i = from){theTimeout = setTimeout('textPulseUp()',delay);return 0;}}//--> 
+</SCRIPT> 
+<br> 
+<FORM name=textform> 
+<CENTER> 
+<input name=LajiCurText type="hidden"> 
+<textarea style="FONT-SIZE: 13px; BORDER-LEFT-COLOR: #00ff00; BORDER-BOTTOM-COLOR: #00ff00; 
+COLOR: #00ff00; BORDER-TOP-COLOR: #00ff00; SCROLLBAR-BASE-COLOR: #000000; BACKGROUND-COLOR: 
+#000000; BORDER-RIGHT-COLOR: #00ff00" name=textfield rows=27 readonly wrap=virtual 
+cols=99></textarea> 
+</CENTER> 
+<SCRIPT language=javascript> 
+var pos=0; 
+var LajiCurI=0; 
+function LajiCur() 
+{ 
+if(LajiCurI==0) 
+document.textform.LajiCurText.value="_"; 
+else if(LajiCurI==1) 
+document.textform.LajiCurText.value=" "; 
+else if(LajiCurI==2) 
+document.textform.LajiCurText.value="_"; 
+else if(LajiCurI>2) 
+{document.textform.LajiCurText.value=" ";LajiCurI=0;} 
+LajiCurI++; 
+} 
+setInterval("LajiCur()",delay); 
+
+function ShowText(strText) 
+{ 
+document.textform.textfield.value=strText.substring(0,pos++) 
+
++document.textform.LajiCurText.value; 
+setTimeout("ShowText(strText)",50); 
+if(pos==strText.length) 
+{ 
+return; 
+} 
+}var strText = "\n\n\n\n 致可爱的ctfer们:\n\n——————————————————————————————————————————————————\n\n-> 欢迎来到swpu_ctf.\n\n-> 这是一道渗透测试的题目...\n-> Tips1:include.php \n\n-> 希望各位师傅轻点搞，慢点搞 ...\n-> 如果有问题请及时反馈...\n-> 好了,废话不多说了 ...\n-> 最后再次欢迎各位大牛的到来! ...\n\n—————————————————————————————————————————————————— \n"; 
+ShowText(strText); 
+</SCRIPT> 
+<SCRIPT language=JavaScript1.2> 
+if (document.all) 
+document.body.style.cssText="border:20 ridge red" 
+</SCRIPT> 
+</FORM> 
+<div align="center"> 
+<p www_helpor_net="dropWord" style="position: relative !important; left: 10000 !important" align="center"><font size="3" color="#ee00FF">  </font><font size="15" face="Arial" color="#FF0000"><b>pentest</b></font></p> 
+<SCRIPT language="JavaScript"> 
+<!-- 
+dynamicanimAttr = "www_helpor_net" 
+animateElements = new Array() 
+currentElement = 0 
+speed = 0 
+stepsZoom = 8 
+stepsWord = 8 
+stepsFly = 12 
+stepsSpiral = 16 
+steps = stepsZoom 
+step = 0 
+outString = "" 
+function helpor_net() 
+{ 
+var ms = navigator.appVersion.indexOf("MSIE") 
+ie4 = (ms>0) && (parseInt(navigator.appVersion.substring(ms+5, ms+6)) >= 4) 
+if(!ie4) 
+{ 
+if((navigator.appName == "Netscape") && 
+(parseInt(navigator.appVersion.substring(0, 1)) >= 4)) 
+{ 
+for (index=document.layers.length-1; index >= 0; index--) 
+{ 
+layer=document.layers[index] 
+if (layer.left==10000) 
+layer.left=0 
+} 
+} 
+return 
+} 
+for (index=document.all.length-1; index >= document.body.sourceIndex; index--) 
+{ 
+el = document.all[index] 
+animation = el.getAttribute(dynamicanimAttr, false) 
+if(null != animation) 
+{ 
+if(animation == "dropWord" || animation == "flyTopRightWord" || animation == "flyBottomRightWord") 
+{ 
+ih = el.innerHTML 
+outString = "" 
+i1 = 0 
+iend = ih.length 
+while(true) 
+{ 
+i2 = startWord(ih, i1) 
+if(i2 == -1) 
+i2 = iend 
+outWord(ih, i1, i2, false, "") 
+if(i2 == iend) 
+break 
+i1 = i2 
+i2 = endWord(ih, i1) 
+if(i2 == -1) 
+i2 = iend 
+outWord(ih, i1, i2, true, animation) 
+if(i2 == iend) 
+break 
+i1 = i2 
+} 
+document.all[index].innerHTML = outString 
+document.all[index].style.posLeft = 0 
+document.all[index].setAttribute(dynamicanimAttr, null) 
+} 
+if(animation == "zoomIn" || animation == "zoomOut") 
+{ 
+ih = el.innerHTML 
+outString = "<SPAN " + dynamicanimAttr + "=\"" + animation + "\" style=\"position: relative; left: 10000;\">" 
+outString += ih 
+outString += "</SPAN>" 
+document.all[index].innerHTML = outString 
+document.all[index].style.posLeft = 0 
+document.all[index].setAttribute(dynamicanimAttr, null) 
+} 
+} 
+} 
+i = 0 
+for (index=document.body.sourceIndex; index < document.all.length; index++) 
+{ 
+el = document.all[index] 
+animation = el.getAttribute(dynamicanimAttr, false) 
+if (null != animation) 
+{ 
+if(animation == "flyLeft") 
+{ 
+el.style.posLeft = 10000-offsetLeft(el)-el.offsetWidth 
+el.style.posTop = 0 
+} 
+else if(animation == "flyRight") 
+{ 
+el.style.posLeft = 10000-offsetLeft(el)+document.body.offsetWidth 
+el.style.posTop = 0 
+} 
+else if(animation == "flyTop" || animation == "dropWord") 
+{ 
+el.style.posLeft = 0 
+el.style.posTop = document.body.scrollTop-offsetTop(el)-el.offsetHeight 
+} 
+else if(animation == "flyBottom") 
+{ 
+el.style.posLeft = 0 
+el.style.posTop = document.body.scrollTop-offsetTop(el)+document.body.offsetHeight 
+} 
+else if(animation == "flyTopLeft") 
+{ 
+el.style.posLeft = 10000-offsetLeft(el)-el.offsetWidth 
+el.style.posTop = document.body.scrollTop-offsetTop(el)-el.offsetHeight 
+} 
+else if(animation == "flyTopRight" || animation == "flyTopRightWord") 
+{ 
+el.style.posLeft = 10000-offsetLeft(el)+document.body.offsetWidth 
+el.style.posTop = document.body.scrollTop-offsetTop(el)-el.offsetHeight 
+} 
+else if(animation == "flyBottomLeft") 
+{ 
+el.style.posLeft = 10000-offsetLeft(el)-el.offsetWidth 
+el.style.posTop = document.body.scrollTop-offsetTop(el)+document.body.offsetHeight 
+} 
+else if(animation == "flyBottomRight" || animation == "flyBottomRightWord") 
+{ 
+el.style.posLeft = 10000-offsetLeft(el)+document.body.offsetWidth 
+el.style.posTop = document.body.scrollTop-offsetTop(el)+document.body.offsetHeight 
+} 
+else if(animation == "spiral") 
+{ 
+el.style.posLeft = 10000-offsetLeft(el)-el.offsetWidth 
+el.style.posTop = document.body.scrollTop-offsetTop(el)-el.offsetHeight 
+} 
+else if(animation == "zoomIn") 
+{ 
+el.style.posLeft = 10000 
+el.style.posTop = 0 
+} 
+else if(animation == "zoomOut") 
+{ 
+el.style.posLeft = 10000 
+el.style.posTop = 0 
+} 
+else 
+{ 
+el.style.posLeft = 10000-offsetLeft(el)-el.offsetWidth 
+el.style.posTop = 0 
+} 
+el.initLeft = el.style.posLeft 
+el.initTop = el.style.posTop 
+animateElements[i++] = el 
+} 
+} 
+window.setTimeout("animate();", speed) 
+} 
+function offsetLeft(el) 
+{ 
+x = el.offsetLeft 
+for (e = el.offsetParent; e; e = e.offsetParent) 
+x += e.offsetLeft; 
+return x 
+} 
+function offsetTop(el) 
+{ 
+y = el.offsetTop 
+for (e = el.offsetParent; e; e = e.offsetParent) 
+y += e.offsetTop; 
+return y 
+} 
+function startWord(ih, i) 
+{ 
+for(tag = false; i < ih.length; i++) 
+{ 
+c = ih.charAt(i) 
+if(c == '<') 
+tag = true 
+if(!tag) 
+return i 
+if(c == '>') 
+tag = false 
+} 
+return -1 
+} 
+function endWord(ih, i) 
+{ 
+nonSpace = false 
+space = false 
+while(i < ih.length) 
+{ 
+c = ih.charAt(i) 
+if(c != ' ') 
+nonSpace = true 
+if(nonSpace && c == ' ') 
+space = true 
+if(c == '<') 
+return i 
+if(space && c != ' ') 
+return i 
+i++ 
+} 
+return -1 
+} 
+function outWord(ih, i1, i2, dyn, anim) 
+{ 
+if(dyn) 
+outString += "<SPAN " + dynamicanimAttr + "=\"" + anim + "\" style=\"position: relative; left: 10000;\">" 
+outString += ih.substring(i1, i2) 
+if(dyn) 
+outString += "</SPAN>" 
+} 
+function animate() 
+{ 
+el = animateElements[currentElement] 
+animation = el.getAttribute(dynamicanimAttr, false) 
+step++ 
+if(animation == "spiral") 
+{ 
+steps = stepsSpiral 
+v = step/steps 
+rf = 1.0 - v 
+t = v * 2.0*Math.PI 
+rx = Math.max(Math.abs(el.initLeft), 200) 
+ry = Math.max(Math.abs(el.initTop), 200) 
+el.style.posLeft = Math.ceil(-rf*Math.cos(t)*rx) 
+el.style.posTop = Math.ceil(-rf*Math.sin(t)*ry) 
+} 
+else if(animation == "zoomIn") 
+{ 
+steps = stepsZoom 
+el.style.fontSize = Math.ceil(50+50*step/steps) + "%" 
+el.style.posLeft = 0 
+} 
+else if(animation == "zoomOut") 
+{ 
+steps = stepsZoom 
+el.style.fontSize = Math.ceil(100+200*(steps-step)/steps) + "%" 
+el.style.posLeft = 0 
+} 
+else 
+{ 
+steps = stepsFly 
+if(animation == "dropWord" || animation == "flyTopRightWord" || animation == "flyBottomRightWord") 
+steps = stepsWord 
+dl = el.initLeft / steps 
+dt = el.initTop / steps 
+el.style.posLeft = el.style.posLeft - dl 
+el.style.posTop = el.style.posTop - dt 
+} 
+if (step >= steps) 
+{ 
+el.style.posLeft = 0 
+el.style.posTop = 0 
+currentElement++ 
+step = 0 
+} 
+if(currentElement < animateElements.length) 
+window.setTimeout("animate();", speed) 
+} 
+helpor_net() 
+//--> 
+</SCRIPT> 
+<p><span class="STYLE1">-------------------------------------------------------------------------------------------------------------------</span></p> 
+<p> </p>  
+<p class="STYLE1"> </p> 
+<center><body background="http://www.freebx.cn/tp/hk.gif"> 
+<p> 
+<SCRIPT language=JavaScript> 
+<!-- 
+if (document.all){ 
+Cols=10; 
+Cl=48;//Space's are included so real length is 24! 
+Cs=120; 
+Ts=18;//数字大小 
+Tc='#008800'; 
+Tc1='#00ff00'; 
+MnS=20; 
+MxS=35;//数字变换速度 
+I=Cs; 
+Sp=new Array();S=new Array();Y=new Array(); 
+C=new Array();M=new Array();B=new Array(); 
+RC=new Array();E=new Array();Tcc=new Array(0,1,2,3,4,5,6,7,8,9); 
+document.write("<div id='Container' style='position:absolute;top:0;left:-"+Cs+"'>"); 
+document.write("<div style='position:relative'>"); 
+for(i=0; i < Cols; i++){ 
+S=I+=Cs; 
+document.write("<div id='A' style='position:absolute;top:0;font-family:Arial;font-size:" 
++Ts+"px;left:"+S+";width:"+Ts+"px;height:0px;color:"+Tc+";visibility:hidden'></div>"); 
+} 
+document.write("</div></div>"); 
+for(j=0; j < Cols; j++){ 
+RC[j]=1+Math.round(Math.random()*Cl); 
+Y[j]=0; 
+Sp[j]=Math.round(MnS+Math.random()*MxS); 
+for(i=0; i < RC[j]; i++){ 
+B=''; 
+C=Math.round(Math.random()*1)+' '; 
+M[j]=B[0]+=C; 
+} 
+} 
+function Cycle(){ 
+Container.style.top=window.document.body.scrollTop; 
+for (i=0; i < Cols; i++){ 
+var r = Math.floor(Math.random()*Tcc.length); 
+E = '<font color='+Tc1+'>'+Tcc[r]+'</font>'; 
+Y+=Sp; 
+if (Y > window.document.body.clientHeight){ 
+for(i2=0; i2 < Cols; i2++){ 
+RC[i2]=1+Math.round(Math.random()*Cl); 
+for(i3=0; i3 < RC[i2]; i3++){ 
+B[i3]=''; 
+C[i3]=Math.round(Math.random()*1)+' '; 
+C[Math.floor(Math.random()*i2)]=' '+' '; 
+M=B[0]+=C[i3]; 
+Y=-Ts*M.length/1.5; 
+A.style.visibility='visible'; 
+} 
+Sp=Math.round(MnS+Math.random()*MxS); 
+} 
+} 
+A.style.top=Y; 
+A.innerHTML=M+' '+E+' '; 
+} 
+setTimeout('Cycle()',45) 
+} 
+Cycle(); 
+} 
+// --> 
+</SCRIPT> 
+</p> 
+</Body> 
+<Html> 
+<style> 
+<!--#leftright, #topdown{position:absolute; 
+left:0;top:0;width:1px;height:1px;layer-background-color:blue; 
+background-color:red;z-index:100;font-size:1px;}--> 
+</style> 
+<style> 
+<!--#leftright, #topdown{position:absolute;left:0; 
+top:0;width:1px;height:1px;layer-background-color:blue; 
+background-color:red;z-index:100;font-size:1px;}--> 
+</style> 
+<div id="leftright" style="width:expression(document.body.clientWidth-2)"></div><div 
+id="topdown" style="height:expression(document.body.clientHeight-2)"></div><script 
+language="JavaScript1.2"> 
+<!-- 
+if (document.all&&!window.print){ 
+leftright.style.width=document.body.clientWidth-2 
+topdown.style.height=document.body.clientHeight-2 
+} 
+else if (document.layers){ 
+document.leftright.clip.width=window.innerWidth 
+document.leftright.clip.height=1 
+document.topdown.clip.width=1 
+document.topdown.clip.height=window.innerHeight 
+} 
+function followmouse1(){ 
+//move cross engine for IE 4+ 
+leftright.style.pixelTop=document.body.scrollTop+event.clientY+1 
+topdown.style.pixelTop=document.body.scrollTop 
+if (event.clientX<document.body.clientWidth-2) 
+topdown.style.pixelLeft=document.body.scrollLeft+event.clientX+1 
+else 
+topdown.style.pixelLeft=document.body.clientWidth-2 
+} 
+function followmouse2(e){ 
+//move cross engine for NS 4+ 
+document.leftright.top=e.y+1 
+document.topdown.top=pageYOffset 
+document.topdown.left=e.x+1 
+} 
+if (document.all) 
+document.onmousemove=followmouse1 
+else if (document.layers){ 
+window.captureEvents(Event.MOUSEMOVE) 
+window.onmousemove=followmouse2 
+} 
+function regenerate(){ 
+window.location.reload() 
+} 
+function regenerate2(){ 
+setTimeout("window.onresize=regenerate",400) 
+} 
+if ((document.all&&!window.print)||document.layers) 
+//if the user is using IE 4 or NS 4, both NOT IE 5+ 
+window.onload=regenerate2 
+//--> 
+</script> 
+<BGSOUND 
+</div> 
+
+<style> 
+<!-- 
+.helpor_net{position:absolute; 
+left:0; 
+top:0; 
+layer-background-color:#FF0000; 
+background-color:#CC0000; 
+border:0.1px solid green 
+} 
+--> 
+</style> 
+
+<div id="i1" class="helpor_net"></div><div id="i2" class="helpor_net"></div><div id="i3" 
+class="helpor_net"></div><div id="i4" class="helpor_net"></div><div id="i5" class="helpor_net"></div><div 
+id="i6" class="helpor_net"></div><div id="i7" class="helpor_net"></div><div id="i8" class="helpor_net"></div> 
+
+<SCRIPT language=javascript> 
+<!-- 
+var speed=30 
+var temp=new Array() 
+var temp2=new Array() 
+if (document.layers){ 
+for (i=1;i<=8;i++){ 
+temp[i]=eval("document.i"+i+".clip") 
+temp2[i]=eval("document.i"+i) 
+temp[i].width=window.innerWidth/8-0.3 
+temp[i].height=window.innerHeight 
+temp2[i].left=(i-1)*temp[i].width 
+} 
+} 
+else if (document.all){ 
+var clipbottom=document.body.offsetHeight,cliptop=0 
+for (i=1;i<=8;i++){ 
+temp[i]=eval("document.all.i"+i+".style") 
+temp[i].width=document.body.clientWidth/8 
+temp[i].height=document.body.offsetHeight 
+temp[i].left=(i-1)*parseInt(temp[i].width) 
+} 
+} 
+function openit(){ 
+window.scrollTo(0,0) 
+if (document.layers){ 
+for (i=1;i<=8;i=i+2) 
+temp[i].bottom-=speed 
+for (i=2;i<=8;i=i+2) 
+temp[i].top+=speed 
+if (temp[2].top>window.innerHeight) 
+clearInterval(stopit) 
+} 
+else if (document.all){ 
+clipbottom-=speed 
+for (i=1;i<=8;i=i+2){ 
+temp[i].clip="rect(0 auto+"+clipbottom+" 0)" 
+} 
+cliptop+=speed 
+for (i=2;i<=8;i=i+2){ 
+temp[i].clip="rect("+cliptop+" auto auto)" 
+} 
+if (clipbottom<=0) 
+clearInterval(stopit) 
+} 
+} 
+function www_helpor_net(){ 
+stopit=setInterval("openit()",100) 
+} 
+www_helpor_net() 
+--> 
+</SCRIPT> 
+
+</HTML> 
