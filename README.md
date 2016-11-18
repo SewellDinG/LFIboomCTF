@@ -78,6 +78,7 @@ include和require区别主要是，include在包含的过程中如果出现错�
 4. p.s.上述说的php.ini文件的限制如下：
 	- allow\_url_fopen = On `默认打开`，允许URLs作为像files一样作为打开的对象；
 	- allow\_url_include = On 允许include/require函数像打开文件一样打开URLs；
+
 ###函数解释
 
 1. file\_get_contents()：这个函数就是把一个文件里面的东西 （字符）全部return出来作为字符串。
