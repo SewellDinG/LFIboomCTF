@@ -34,72 +34,80 @@ include和require区别主要是，include在包含的过程中如果出现错�
 ##这个玩意儿与CTF的渊源（基础）
 1. `php://`伪协议 >> 访问各个输入/输出流；
    - php://filter 
-     - 解释：php://filter是一种元封装器，设计用于"数据流打开"时的"筛选过滤"应用，对本地磁盘文件进行读写。简单来讲就是可以在执行代码前将代码换个方式读取出来，只是读取，`不需要`开启allow\_url_include； 
+     1. 解释：php://filter是一种元封装器，设计用于"数据流打开"时的"筛选过滤"应用，对本地磁盘文件进行读写。简单来讲就是可以在执行代码前将代码换个方式读取出来，只是读取，`不需要`开启allow\_url_include； 
 
-     - 用法：?file=php://filter/convert.base64-encode/resource=xxx.php
+     2. 用法：?file=php://filter/convert.base64-encode/resource=xxx.php
 
-     - ?file=php://filter/read=convert.base64-encode/resource=xxx.php 一样
+     3. ?file=php://filter/read=convert.base64-encode/resource=xxx.php 一样
 
-     - 例子：
-       - [http://4.chinalover.sinaapp.com/web7/index.php](http://4.chinalover.sinaapp.com/web7/index.php)
-       - nctf{edulcni_elif_lacol_si_siht}
-       - 练习题目源码文件见filter文件夹。
+     4. 例子：
 
-     - Tips：上述利用的是encode编码为base64再带出来，filter还有decode解密语句，可利用场景如下（文字摘自phithon博客）：
+        - http://4.chinalover.sinaapp.com/web7/index.php](http://4.chinalover.sinaapp.com/web7/index.php)
+        - nctf{edulcni_elif_lacol_si_siht}
+        - 练习题目源码文件见filter文件夹。
 
-       -  源码存在eval(xxx)，但xxx长度限制为16个字符，而且不能用eval或assert，怎么执行命令。
-       -  题目源码文件见tips.php，那么利用这个代码怎么拿到webshell？
-       -  利用file_put_contents可以将字符一个个地写入一个文件中，大概请求如下：
-       -  file_put_contents的第一个参数是文件名，我传入N。PHP会认为N是一个常量，但我之前并没有定义这个常量，于是PHP就会把它转换成字符串'N'；第二个参数是要写入的数据，a也被转换成字符串'a'；第三个参数是flag，当flag=8的时候内容会追加在文件末尾，而不是覆盖。
+     5. Tips：上述利用的是encode编码为base64再带出来，filter还有decode解密语句，可利用场景如下（文字摘自phithon博客）：
 
-       -  除了file_put_contents，error_log函数效果也类似。
+        - 源码存在eval(xxx)，但xxx长度限制为16个字符，而且不能用eval或assert，怎么执行命令。题目源码文件见tips.php，那么利用这个代码怎么拿到webshell？
 
-       -  但这个方法有个问题，就是file_put_contents第二个参数如果是符号，就会导致PHP出错，比如`param=$_GET[a](N,<,8);&a=file_put_contents`。但如果要写webshell的话，“<”等符号又是必不可少的。
+        - 利用file_put_contents可以将字符一个个地写入一个文件中，大概请求如下：
 
-       -  于是微博上 @买贴膜的 想出一个办法，每次向文件'N'中写入一个字母或数字，最后构成一个base64字符串，再包含的时候使用php://filter对base64进行解码即可。
+          1. file_put_contents的第一个参数是文件名，我传入N。PHP会认为N是一个常量，但我之前并没有定义这个常量，于是PHP就会把它转换成字符串'N'；第二个参数是要写入的数据，a也被转换成字符串'a'；第三个参数是flag，当flag=8的时候内容会追加在文件末尾，而不是覆盖。
 
-       -  这时候就利用了decode了，成功getshell。
+          2. 除了file_put_contents，error_log函数效果也类似。
 
-       -  ```php+HTML
-                # 每次写入一个字符：PD9waHAgZXZhbCgkX1BPU1RbOV0pOw
-                # 最后包含
-                param=include$_GET[0];&0=php://filter/read=convert.base64-decode/resource=N
-          ```
+          3. 但这个方法有个问题，就是file_put_contents第二个参数如果是符号，就会导致PHP出错，比如`param=$_GET[a](N,<,8);&a=file_put_contents`。但如果要写webshell的话，“<”等符号又是必不可少的。
+
+          4. 于是微博上 @买贴膜的 想出一个办法，每次向文件'N'中写入一个字母或数字，最后构成一个base64字符串，再包含的时候使用php://filter对base64进行解码即可。
+
+          5. 这时候就利用了decode了，成功getshell。
+
+          6. ```php+HTML
+             # 每次写入一个字符：PD9waHAgZXZhbCgkX1BPU1RbOV0pOw
+             # 最后包含
+             param=include$_GET[0];&0=php://filter/read=convert.base64-decode/resource=N
+             ```
 
    - php://input 
 
-     - 解释：上面filter既然能读文件，肯定还能写文件，这就可以利用input将数据POST过去，即php://input是用来接收post数据的；
-     - 用法：?file=php://input  数据利用POST传过去
-     - 注意：
-       - 如果php.ini里的allow\_url_include=On（PHP < 5.30）,就可以造成任意代码执行，在这可以理解成远程文件包含漏洞（RFI），即POST过去一句话，如<?php phpinfo();?>，即可执行；
-     - 例子：
-       - 碰到file\_get_contents()就要想到用php://input绕过，因为php伪协议也是可以利用http协议的，即可以使用POST方式传数据，具体函数意义下一项；
-       - [http://ctf4.shiyanbar.com/web/9](http://ctf4.shiyanbar.com/web/9)
-       - 并且可以用data伪协议来绕过，由于这个题由于存在extract()函数，存在变量覆盖漏洞；直接?flag=1&shiyan=即可；
-       - 练习题目源码文件见input文件夹；
-       - 2016华山杯有一道，本地data文件夹，可以利用data流；
-2. data://伪协议 >> 数据流封装器，和php://相似都是利用了流的概念，将原本的include的文件流重定向到了用户可控制的输入流中，简单来说就是执行文件的包含方法包含了你的输入流，通过你输入payload来实现目的；
+     1. 解释：上面filter既然能读文件，肯定还能写文件，这就可以利用input将数据POST过去，即php://input是用来接收post数据的；
+     2. 用法：?file=php://input  数据利用POST传过去
+     3. 注意：如果php.ini里的allow\_url_include=On（PHP < 5.30）,就可以造成任意代码执行，在这可以理解成远程文件包含漏洞（RFI），即POST过去一句话，如<?php phpinfo();?>，即可执行；
+     4. 例子：
+        - 碰到file\_get_contents()就要想到用php://input绕过，因为php伪协议也是可以利用http协议的，即可以使用POST方式传数据，具体函数意义下一项；
+        - http://ctf4.shiyanbar.com/web/9](http://ctf4.shiyanbar.com/web/9)
+        - 并且可以用data伪协议来绕过，由于这个题由于存在extract()函数，存在变量覆盖漏洞；直接?flag=1&shiyan=即可；
+        - 练习题目源码文件见input文件夹；
+        - 2016华山杯有一道题，源码见本地data文件夹，这个可以利用data流；
+2. `data://`伪协议 >> 数据流封装器，和php://相似都是利用了流的概念，将原本的include的文件流重定向到了用户可控制的输入流中，简单来说就是执行文件的包含方法包含了你的输入流，通过你输入payload来实现目的；
    - data://text/plain 
-     - 解释：
-     - 用法：?file=data://text/plain;base64,base64编码的payload
-     - 注意：
-       - `<?php phpinfo();`,这类执行代码最后没有?>闭合；
-       - 如果php.ini里的allow\_url_include=On（PHP < 5.30）,就可以造成任意代码执行，同理在这就可以理解成远程文件包含漏洞（RFI）；
-     - 例子： 
-       - 和php伪协议的input类似，碰到file\_get_contents()来用；
-       - 练习题目源码文件见data文件夹
-3. phar://伪协议 >> 数据流包装器，自 PHP 5.3.0 起开始有效，正好契合上面两个伪协议的利用条件。说通俗点就是php解压缩包的一个函数，解压的压缩包与后缀无关。
+
+     1. 解释：
+     2. 用法：?file=data://text/plain;base64,base64编码的payload
+
+     3. 注意：
+
+        - `<?php phpinfo();`,这类执行代码最后没有?>闭合；
+
+        - 如果php.ini里的allow\_url_include=On（PHP < 5.30）,就可以造成任意代码执行，同理在这就可以理解成远程文件包含漏洞（RFI）；
+     4. 例子： 
+        - 和php伪协议的input类似，碰到file\_get_contents()来用；
+        - 练习题目源码文件见data文件夹
+
+3. `phar://`伪协议 >> 数据流包装器，自 PHP 5.3.0 起开始有效，正好契合上面两个伪协议的利用条件。说通俗点就是php解压缩包的一个函数，解压的压缩包与后缀无关。
    - phar://
-     - 用法：?file=phar://压缩包/内部文件
-     - 注意：
-       - PHP版本需大于等于 5.3，这就说明上述协议已经挂掉了，但又出来了phar协议前赴后继；
-       - 压缩包一般是phar后缀，需要代码来生成，但是zip后缀也可以；
-       - 压缩包需要是zip协议压缩，rar不行，tar等格式待测；
-       - 利用url的压缩包后缀可以是任意后缀；
-     - 例子：
-       - 本地：phar1文件（SWPU2016，限制上传类型）
-       - 本地：phar2文件（限制上传类型，上传重命名）
-4. p.s.上述说的php.ini文件的限制如下：
+     1. 用法：?file=phar://压缩包/内部文件
+     2. 注意：
+
+        - PHP版本需大于等于 5.3，这就说明上述协议已经挂掉了，但又出来了phar协议前赴后继；
+        - 压缩包一般是phar后缀，需要代码来生成，但是zip后缀也可以；
+        - 压缩包需要是zip协议压缩，rar不行，tar等格式待测；
+        - 利用url的压缩包后缀可以是任意后缀；
+     3. 例子：
+        - 本地：phar1文件（SWPU2016，限制上传类型）
+        - 本地：phar2文件（限制上传类型，上传重命名）
+
+4. 上述说的php.ini文件的限制如下：
    - allow\_url_fopen = On `默认打开` ，允许URLs作为像files一样作为打开的对象；
    - allow\_url_include = On `默认关闭` ，允许include/require函数像打开文件一样打开URLs；
 
