@@ -1,7 +1,5 @@
 #LFI（Local File Include）漏洞
 
-[TOC]
-
 ##漏洞简介
 
 下面是纯bb，了解过的跳过这部分；
@@ -134,7 +132,8 @@ include和require区别主要是，include在包含的过程中如果出现错�
      param=include$_GET[0];&0=php://filter/read=convert.base64-decode/resource=N
      ```
 
-##参考博文
+## 参考博文
+
 1. [http://www.cnblogs.com/LittleHann/p/3665062.html](http://www.cnblogs.com/LittleHann/p/3665062.html)
 2. [http://www.cnblogs.com/iamstudy/articles/include_file.html](http://www.cnblogs.com/iamstudy/articles/include_file.html)
 3. [http://mp.weixin.qq.com/s?__biz=MzAwMTUyMjQ5OA==&mid=2650963079&idx=1&sn=cf0e9c60a68ea7e272e8ad77e6816ebe&scene=1&srcid=0824QF8DtX5jg5FSnZlQlLHR#rd](http://mp.weixin.qq.com/s?__biz=MzAwMTUyMjQ5OA==&mid=2650963079&idx=1&sn=cf0e9c60a68ea7e272e8ad77e6816ebe&scene=1&srcid=0824QF8DtX5jg5FSnZlQlLHR#rd)
