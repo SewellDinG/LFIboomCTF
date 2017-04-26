@@ -1,6 +1,6 @@
-#LFI（Local File Include）漏洞
+# LFI（Local File Include）漏洞
 
-##漏洞简介
+## 漏洞简介
 
 下面是纯bb，了解过的跳过这部分；
 
@@ -32,7 +32,7 @@ include和require区别主要是，include在包含的过程中如果出现错�
 
 当使用这4个函数包含一个新的文件时，该文件将作为PHP代码执行，PHP的内核并不会在意被包含的文件是什么类型。即你可以上传一个含shell的txt或jpg文件，包含它会被当作PHP代码执行（图马）。
 
-##这个玩意儿与CTF的渊源（协议基础）
+## 这个玩意儿与CTF的渊源（协议基础）
 1. `php://`伪协议 >> 访问各个输入/输出流；
    - php://filter 
      1. 解释：php://filter是一种元封装器，设计用于"数据流打开"时的"筛选过滤"应用，对本地磁盘文件进行读写。简单来讲就是可以在执行代码前将代码换个方式读取出来，只是读取，`不需要`开启allow\_url_include； 
@@ -90,7 +90,7 @@ include和require区别主要是，include在包含的过程中如果出现错�
    - allow\_url_fopen = On `默认打开` ，允许URLs作为像files一样作为打开的对象；
    - allow\_url_include = On `默认关闭` ，允许include/require函数像打开文件一样打开URLs；
 
-##函数解释
+## 函数解释
 
 1. file\_get_contents()：这个函数就是把一个文件里面的东西 （字符）全部return出来作为字符串。
    - 除此之外，通过实践我发现这个函数如果直接把字符串当作参数会报错，但如果包含的是http协议的网址，则会像curl命令一样，把源码读出来。而php伪协议也是识别http协议的，所以说上面php://input可以将POST的数据读过来来赋值给参数，这就造成了上述那个例子的漏洞。
